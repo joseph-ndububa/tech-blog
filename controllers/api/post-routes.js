@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
     Post.findAll({
         attributes: [
             'id',
-            'post_url',
+            'post_text',
             'title',
             'created_at',
         ],
@@ -44,7 +44,7 @@ router.get('/:id', (req, res) => {
         },
         attributes: [
             'id',
-            'post_url',
+            'post_text',
             'title',
             'created_at',
         ],
@@ -79,16 +79,21 @@ router.get('/:id', (req, res) => {
 // add a post
 
 router.post('/', withAuth, (req, res) => {
-    Post.create({
-        title: req.body.title,
-        post_url: req.body.post_url,
-        user_id: req.session.user_id
-    })
-        .then(dbPostData => res.json(dbPostData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+    if (req.body.title !== "" && req.body.post_text !== "") {
+        Post.create({
+            title: req.body.title,
+            post_text: req.body.post_text,
+            user_id: req.session.user_id
+        })
+            .then(dbPostData => res.json(dbPostData))
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    }
+    else {
+        res.status(400).json(err);
+    }
 });
 
 // edit a post
@@ -96,7 +101,8 @@ router.post('/', withAuth, (req, res) => {
 router.put('/:id', withAuth, (req, res) => {
     Post.update(
         {
-            title: req.body.title
+            title: req.body.title,
+            post_text: req.body.post_text
         },
         {
             where: {
