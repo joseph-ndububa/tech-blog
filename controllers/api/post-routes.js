@@ -35,6 +35,8 @@ router.get('/', (req, res) => {
         });
 });
 
+// get one post
+
 router.get('/:id', (req, res) => {
     Post.findOne({
         where: {
@@ -74,6 +76,8 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// add a post
+
 router.post('/', withAuth, (req, res) => {
     Post.create({
         title: req.body.title,
@@ -81,6 +85,32 @@ router.post('/', withAuth, (req, res) => {
         user_id: req.session.user_id
     })
         .then(dbPostData => res.json(dbPostData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+// edit a post
+
+router.put('/:id', withAuth, (req, res) => {
+    Post.update(
+        {
+            title: req.body.title
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }
+    )
+        .then(dbPostData => {
+            if (!dbPostData) {
+                res.status(404).json({ message: 'Post not found' });
+                return;
+            }
+            res.json(dbPostData);
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
