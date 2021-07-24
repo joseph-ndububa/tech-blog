@@ -1,10 +1,10 @@
-let Sequelize = require('sequelize');
-
-let sequelize;
+const Sequelize = require('sequelize');
 
 require('dotenv').config();
 
-// create connection to db
+// create connection to our db
+let sequelize;
+
 if (process.env.JAWSDB_URL) {
     sequelize = new Sequelize(process.env.JAWSDB_URL);
 } else {
