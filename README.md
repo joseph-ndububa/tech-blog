@@ -26,7 +26,7 @@ Navigate to the application's URL at [https://fierce-hollows-04346.herokuapp.com
 
 ### - What is your github username?
 
-You can find me on github at [josephn90] (https://github.com/josephn90)
+You can find me on github at [josephn90](https://github.com/josephn90)
 
 ### - How can I reach out?
 
